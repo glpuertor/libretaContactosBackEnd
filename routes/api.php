@@ -10,7 +10,19 @@ Route::get('/user', function (Request $request) {
     return $request->user();
 })->middleware('auth:sanctum');
 
-Route::post('register', [ContactoController::class, 'register']);
+Route::get('contacto', [ContactoController::class, 'index']);
+
+Route::get('/contacto/{id}', [ContactoController::class, 'show']);
+
+Route::delete('/contacto/{id}', [ContactoController::class, 'destroy']);
+
+Route::post('/contacto', [ContactoController::class, 'store']);
+
+Route::put('/contacto/{id}', [ContactoController::class, 'update']);
+
+Route::patch('/contacto/{id}', [ContactoController::class, 'updatePartial']);
+
+
 
 /*
 Route::post('register', [AuthController::class, 'register']);
