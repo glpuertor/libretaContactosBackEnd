@@ -7,20 +7,25 @@ use App\Http\Controllers\Controller;
 use App\Http\Requests\StoreContactoRequest;
 use App\Http\Requests\UpdateContactoRequest;
 use Illuminate\Support\Facades\Validator;
+use Illuminate\Http\Request;
 
 class ContactoController extends Controller
 {
     /**
      * Display a listing of the resource.
      */
-    public function index()
+    public function index(Request $request)
     {
-        $contactos = Contacto::all();
+        $buscar = $request->value;
+        if (empty($buscar)) {
+            $contactos = Contacto::paginate(10);
+        } else {
+            $contactos = Contacto::where('nombre', 'like', "%$buscar%")->paginate(10);
+        }
         $data = [
             'contactos' => $contactos,
             'status' => 200
         ];
-
         return response()->json($data, 200);
     }
 
@@ -32,8 +37,10 @@ class ContactoController extends Controller
     /**
      * Store a newly created resource in storage.
      */
-    public function store(StoreContactoRequest $request)
+    public function store(Request $request)
     {
+        echo $request;
+
         $validator = Validator::make($request->all(), [
             'nombre' => 'required|max:255',
             'apellido' => 'required|max:255',
@@ -106,9 +113,12 @@ class ContactoController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(UpdateContactoRequest $request, $id)
+    public function update(Request $request, $id)
     {
+        //echo $request;
+        //return $request;
         $contacto = Contacto::find($id);
+        //echo $contacto;
         if (!$contacto) {
             $data = [
                 'message' => 'Contacto no encontrado',
@@ -116,7 +126,9 @@ class ContactoController extends Controller
             ];
             return response()->json($data, 404);
         }
+
         $validator = Validator::make($request->all(), [
+
             'nombre' => 'required|max:255',
             'apellido' => 'required|max:255',
             'notas' => 'required|max:255',
@@ -132,11 +144,21 @@ class ContactoController extends Controller
             ];
             return response()->json($data, 400);
         }
-        $contacto->name = $request->name;
-        $contacto->email = $request->email;
-        $contacto->phone = $request->phone;
-        $contacto->description = $request->description;
-        $contacto->status = $request->status;
+        if ($request->has('nombre')) {
+            $contacto->nombre = $request->nombre;
+        }
+        if ($request->has('apellido')) {
+            $contacto->apellido = $request->apellido;
+        }
+        if ($request->has('notas')) {
+            $contacto->notas = $request->notas;
+        }
+        if ($request->has('paginaWeb')) {
+            $contacto->paginaWeb = $request->paginaWeb;
+        }
+        if ($request->has('empresa')) {
+            $contacto->empresa = $request->empresa;
+        }
         $contacto->save();
         $data = [
             'message' => 'Contacto actualizado',
@@ -162,6 +184,56 @@ class ContactoController extends Controller
         $Contacto->delete();
         $data = [
             'message' => 'Borrar Contacto',
+            'status' => 200
+        ];
+        return response()->json($data, 200);
+    }
+
+    public function updatePartial(Request $request, $id)
+    {
+        $contacto = Contacto::find($id);
+        if (!$contacto) {
+            $data = [
+                'message' => 'Provider not found',
+                'status' => 404
+            ];
+            return response()->json($data, 404);
+        }
+        $validator = Validator::make($request->all(), [
+            'nombre' => 'max:255',
+            'apellido' => 'max:255',
+            'notas' => 'max:255',
+            'cumple' => 'max:255',
+            'paginaWeb' => 'max:255',
+            'empresa' => 'max:255'
+        ]);
+        if ($validator->fails()) {
+            $data = [
+                'message' => 'Error validate data provider',
+                'errors' => $validator->errors(),
+                'status' => 400
+            ];
+            return response()->json($data, 400);
+        }
+        if ($request->has('nombre')) {
+            $contacto->nombre = $request->nombre;
+        }
+        if ($request->has('apellido')) {
+            $contacto->apellido = $request->apellido;
+        }
+        if ($request->has('notas')) {
+            $contacto->notas = $request->notas;
+        }
+        if ($request->has('paginaWeb')) {
+            $contacto->paginaWeb = $request->paginaWeb;
+        }
+        if ($request->has('empresa')) {
+            $contacto->empresa = $request->empresa;
+        }
+        $contacto->save();
+        $data = [
+            'message' => 'contacto Actualizado',
+            'providers' => $contacto,
             'status' => 200
         ];
         return response()->json($data, 200);

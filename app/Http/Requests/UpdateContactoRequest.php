@@ -3,6 +3,7 @@
 namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Support\Facades\Auth;
 
 class UpdateContactoRequest extends FormRequest
 {
@@ -12,6 +13,8 @@ class UpdateContactoRequest extends FormRequest
     public function authorize(): bool
     {
         return false;
+        // return Auth::check();
+        //return true;
     }
 
     /**
