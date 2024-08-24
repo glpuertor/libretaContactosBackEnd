@@ -2,6 +2,7 @@
 
 namespace Database\Factories;
 
+use App\Models\Contacto;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
 /**
@@ -17,8 +18,9 @@ class TelefonoFactory extends Factory
     public function definition(): array
     {
         return [
-            'telefono' => $this->faker->randomNumber(10, true),
+            'telefono' => $this->faker->randomNumber(9, true),
             'tipo' => $this->faker->word(1, true),
+            'contacto_id' => Contacto::factory(),
         ];
     }
 }

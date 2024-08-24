@@ -21,14 +21,12 @@ class ContactoFactory extends Factory
         $paginaWeb = $this->faker->domainName();
         $empresa = $paginaWeb;
         return [
-
             'nombre' =>  $nombre,
             'apellido' =>  $apellido,
             'notas' =>     $this->faker->sentence(10),
             'cumple' =>  $this->faker->dateTime(),
             'paginaWeb' =>  $paginaWeb,
             'empresa' =>  $empresa,
-
         ];
     }
 }

@@ -18,9 +18,9 @@ class ContactoController extends Controller
     {
         $buscar = $request->value;
         if (empty($buscar)) {
-            $contactos = Contacto::paginate(10);
+            $contactos = Contacto::with('telefono')->with('email')->with('direccion')->paginate(10);
         } else {
-            $contactos = Contacto::where('nombre', 'like', "%$buscar%")->paginate(10);
+            $contactos = Contacto::where('nombre', 'like', "%$buscar%")->with('telefono')->with('email')->with('direccion')->paginate(10);
         }
         $data = [
             'contactos' => $contactos,
@@ -90,7 +90,7 @@ class ContactoController extends Controller
      */
     public function show($id)
     {
-        $Contacto = Contacto::find($id);
+        $Contacto = Contacto::with('telefono')->with('email')->with('direccion')->find($id);
         if (!$Contacto) {
             $data = [
                 'message' => 'Contacto no encontrado',

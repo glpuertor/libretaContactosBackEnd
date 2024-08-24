@@ -2,6 +2,7 @@
 
 namespace Database\Factories;
 
+use App\Models\Contacto;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
 /**
@@ -19,6 +20,7 @@ class EmailFactory extends Factory
         return [
             'email' => $this->faker->email(),
             'tipo' => $this->faker->word(1, true),
+            'contacto_id' => Contacto::factory(),
         ];
     }
 }

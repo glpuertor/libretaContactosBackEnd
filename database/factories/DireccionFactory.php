@@ -2,6 +2,7 @@
 
 namespace Database\Factories;
 
+use App\Models\Contacto;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
 /**
@@ -21,6 +22,7 @@ class DireccionFactory extends Factory
             'direccion' =>  $this->faker->sentence(5),
             'cp' =>  $this->faker->randomNumber(5, true),
             'nombreDireccion' =>  $this->faker->words(2, true),
+            'contacto_id' => Contacto::factory(),
         ];
     }
 }

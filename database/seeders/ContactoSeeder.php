@@ -14,11 +14,19 @@ class ContactoSeeder extends Seeder
 
     public function run(): void
     {
-        \App\Models\Contacto::factory(5000)->create();
-        /*
+        //\App\Models\Contacto::factory(5000)->create();
+
         Contacto::factory()
-            ->count(5000)
+            ->count(2000)
+            ->hasDireccion(2)
+            ->hasEmail(2)
+            ->hasTelefono(4)
             ->create();
-            */
+        Contacto::factory()
+            ->count(3000)
+            ->hasDireccion(1)
+            ->hasEmail(3)
+            ->hasTelefono(2)
+            ->create();
     }
 }

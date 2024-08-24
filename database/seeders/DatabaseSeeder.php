@@ -22,9 +22,9 @@ class DatabaseSeeder extends Seeder
         ]);
         $this->call([
             ContactoSeeder::class,
-            DireccionSeeder::class,
-            TelefonoSeeder::class,
-            EmailSeeder::class,
+            //DireccionSeeder::class,
+            //TelefonoSeeder::class,
+            //EmailSeeder::class,
         ]);
     }
 }

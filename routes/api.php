@@ -23,6 +23,11 @@ Route::put('/contactoU/{id}', [ContactoController::class, 'update']);
 
 Route::patch('/contactos/{id}', [ContactoController::class, 'updatePartial']);
 
+Route::group(['prefix' => 'bulks', 'namespace' => 'App\Http\Controllers'], function () {
+    Route::post('direccion/bulk', ['uses' => 'DireccionController@bulkStore']);
+    Route::post('direccionUpdate/bulk', ['uses' => 'DireccionController@bulkStoreUpdate']);
+});
+
 
 
 /*

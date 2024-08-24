@@ -6,6 +6,8 @@ use App\Models\direccion;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\StoredireccionRequest;
 use App\Http\Requests\UpdatedireccionRequest;
+use App\Http\Requests\BulkStoredireccionRequest;
+use Illuminate\Support\Arr;
 
 class DireccionController extends Controller
 {
@@ -32,7 +34,25 @@ class DireccionController extends Controller
     {
         //
     }
+    public function bulkStore(BulkStoredireccionRequest $request)
+    {
+        $bulk = collect($request->all())->map(function ($arr, $key) {
+            return Arr::except($arr, []);
+        });
+        direccion::insert($bulk->toArray());
+    }
+    public function bulkStoreUpdate(BulkStoredireccionRequest $request)
+    {
 
+        $bulk = collect($request->all())->map(function ($arr, $key) {
+            return Arr::except($arr, ['contacto_id', 'direccion', 'nombreDireccion', 'cp']);
+        });
+        echo $bulk;
+        direccion::upsert($bulk, 'contacto_id', ['quantity']);
+        //direccion->save();
+        //direccion::update($bulk->toArray());
+        //direccion::insert($bulk->toArray());
+    }
     /**
      * Display the specified resource.
      */
